@@ -1,6 +1,7 @@
 const getStartedButton = document.querySelector("#gsButt"); 
 const input = document.querySelector("#symptoms");
 const searchResults = document.querySelector("#searchResults");
+const resultItems = document.querySelector("#resultItems"); 
 const resultsPlaceholder = document.querySelector("#placeholder"); 
 const addedSymptoms = document.querySelector("#addedSymptoms")
 let doc; 
@@ -32,15 +33,12 @@ input.addEventListener("blur", () => {
 
 input.addEventListener("input", () => {
     if(input.value === "") {
+        resultItems.innerHTML = ""; 
         resultsPlaceholder.classList.remove("d-none"); 
     } else {
         resultsPlaceholder.classList.add("d-none"); 
         let searchResults = search(input.value); 
-        
-        for(symptom of searchResults) {
-            console.log("here"); 
-            console.log(symptom); 
-        }
+        displayResults(searchResults); 
     }
 })
 
@@ -62,7 +60,7 @@ function search(query) {
             break; 
         }
 
-        if(symptom.Name.toLowerCase().includes(query)) {
+        if(symptom.Name.toLowerCase().includes(query) && !results.includes(symptom)) {
             results.push(symptom); 
         }
     }
@@ -70,12 +68,20 @@ function search(query) {
     return results; 
 }
 
-function displaySamples() {
-    createSearchItem()
+function displayResults(searchResults) {
+    resultItems.innerHTML = ""; 
+
+    for(symptom of searchResults) {
+        let item = createSearchItem(symptom.Name); 
+        resultItems.appendChild(item); 
+    }
 }
 
 function createSearchItem(name) {
+
     let item = document.createElement("button"); 
-    item.classList.add("list-group-item list-group-item-action"); 
+    item.classList.add("list-group-item");
+    item.classList.add("list-group-item-action") 
+    item.innerText = name; 
     return item; 
 }
