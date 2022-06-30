@@ -1,6 +1,7 @@
+const secondPage = document.querySelector("#secondPage"); 
 const getStartedButton = document.querySelector("#gsButt"); 
 const input = document.querySelector("#symptoms");
-const searchResults = document.querySelector("#searchResults");
+const searchResultsContainer = document.querySelector("#searchResults");
 const resultItems = document.querySelector("#resultItems"); 
 const resultsPlaceholder = document.querySelector("#placeholder"); 
 const addedSymptoms = document.querySelector("#addedSymptoms")
@@ -18,18 +19,22 @@ const getSymptoms = function() {
 getStartedButton.addEventListener("click", getSymptoms); 
 
 input.addEventListener("focus", () => {
-    console.log(doc); 
-
-    searchResults.classList.add("border"); 
-    searchResults.classList.add("border-top-0"); 
-    searchResults.classList.add("p-2"); 
-    searchResults.classList.remove("d-none"); 
+    searchResultsContainer.classList.add("border"); 
+    searchResultsContainer.classList.add("border-top-0"); 
+    searchResultsContainer.classList.add("p-2"); 
+    searchResultsContainer.classList.remove("d-none"); 
 }); 
 
 
-input.addEventListener("blur", () => {
-    searchResults.classList.add("d-none");  
-})
+// input.addEventListener("blur", () => {
+//     if(document.activeElement !== searchResultsContainer) {
+//         searchResultsContainer.classList.add("d-none");
+//     }
+// })
+
+
+
+
 
 input.addEventListener("input", () => {
     if(input.value === "") {
@@ -40,6 +45,11 @@ input.addEventListener("input", () => {
         let searchResults = search(input.value); 
         displayResults(searchResults); 
     }
+})
+
+searchResultsContainer.addEventListener("click", function(e) { 
+    console.log(e); 
+    console.log("here"); 
 })
 
 function search(query) {
@@ -71,17 +81,27 @@ function search(query) {
 function displayResults(searchResults) {
     resultItems.innerHTML = ""; 
 
-    for(symptom of searchResults) {
-        let item = createSearchItem(symptom.Name); 
+    if(searchResults.length === 0) {
+        let item = createSearchItem("No results"); 
+        item.classList.add("disabled"); 
         resultItems.appendChild(item); 
+    } else  {
+        let num = 0; 
+
+        for(symptom of searchResults) {
+            let item = createSearchItem(symptom.Name); 
+            item.setAttribute("id", "button" + num); 
+            resultItems.appendChild(item); 
+            num++; 
+        }
     }
 }
 
 function createSearchItem(name) {
-
     let item = document.createElement("button"); 
     item.classList.add("list-group-item");
-    item.classList.add("list-group-item-action") 
+    item.classList.add("list-group-item-action"); 
+    item.classList.add("border-0"); 
     item.innerText = name; 
     return item; 
 }
