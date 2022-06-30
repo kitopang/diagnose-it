@@ -37,7 +37,7 @@
                 cure or accurately diagnose disease</p>
         </div>
         <div class="row">
-            <button type="button" class="btn btn-primary rounded-pill px-5 py-2">Get Started</button>
+            <button type="button" class="btn btn-primary rounded-pill px-5 py-2" id="gsButt">Get Started</button>
         </div>
     </div>
 
@@ -46,18 +46,17 @@
         <div class="row py-5 pb-5" >
             <h1 class="display-3 text-center mt-5 title"><b>Tell us your symptoms. </b></h1>
         </div>
-        <div class="row">
-            <div class="col-md-6 pe-4 pb-4">
-                <ul class="list-group pb-3">
+        <div class="row justify-content-center">
+            <div class="col-md-6 pe-4 pb-4 d-none" id = "addedSymptoms">
+                <ul class="list-group pb-3e">
                     <li class="list-group-item">Added Symptoms:</li>
-                 
                 </ul>
                 <div class="">
-                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-primary d-none">Submit</button>
                 </div>
 
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="input-group" id="inputBar">
                     <span class="input-group-text bg-transparent"><svg xmlns="http://www.w3.org/2000/svg" width="16"
                             height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -67,9 +66,17 @@
                     <input type="text" id="symptoms" class="form-control border-start-0" placeholder="Symptoms"
                         aria-label="Recipient's username" aria-describedby="basic-addon2">
                 </div>
-                <div class="border border-top-0 p-2">
+                <ul class="list-group d-none" id = "searchResults">
+                    <div class = "" id = "placeholder">
+                        <button type="button" class="list-group-item list-group-item-action border-0 disabled">Common Symptoms:</button>
+                        <button type="button" class="list-group-item list-group-item-action border-0">Cough</button>
+                        <button type="button" class="list-group-item list-group-item-action border-0">Sore Throat</button>
+                        <button type="button" class="list-group-item list-group-item-action border-0">Headache</button>
+                        <button type="button" class="list-group-item list-group-item-action border-0">Fever</button>
+                    </div>
 
-                </div>
+                </ul>
+
             </div>
         </div>
     </div>

@@ -1,19 +1,81 @@
-let dataFile;
+const getStartedButton = document.querySelector("#gsButt"); 
+const input = document.querySelector("#symptoms");
+const searchResults = document.querySelector("#searchResults");
+const resultsPlaceholder = document.querySelector("#placeholder"); 
+const addedSymptoms = document.querySelector("#addedSymptoms")
+let doc; 
 
-// const options = {
-//     method: 'GET',
-//     url: 'https://priaid-symptom-checker-v1.p.rapidapi.com/symptoms',
-//     params: { language: 'en-gb', format: 'json' },
-//     headers: {
-//         'X-RapidAPI-Key': '3be63b2714msh9d243fd4ef7dd1ap1632ebjsn81dc7e84b888',
-//         'X-RapidAPI-Host': 'priaid-symptom-checker-v1.p.rapidapi.com'
-//     }
-// };
+const getSymptoms = function() {
+    fetch("./resources/symptoms6_29.json")
+    .then(response => {
+        return response.json();
+     })
+     .then(jsondata => doc = jsondata
+     );
+}
 
-// axios.request(options).then(function (response) {
-//     dataFile = response.data;
-//     console.log(response.data);
-// }).catch(function (error) {
-//     console.error(error);
-// });
+getStartedButton.addEventListener("click", getSymptoms); 
 
+input.addEventListener("focus", () => {
+    console.log(doc); 
+
+    searchResults.classList.add("border"); 
+    searchResults.classList.add("border-top-0"); 
+    searchResults.classList.add("p-2"); 
+    searchResults.classList.remove("d-none"); 
+}); 
+
+
+input.addEventListener("blur", () => {
+    searchResults.classList.add("d-none");  
+})
+
+input.addEventListener("input", () => {
+    if(input.value === "") {
+        resultsPlaceholder.classList.remove("d-none"); 
+    } else {
+        resultsPlaceholder.classList.add("d-none"); 
+        let searchResults = search(input.value); 
+        
+        for(symptom of searchResults) {
+            console.log("here"); 
+            console.log(symptom); 
+        }
+    }
+})
+
+function search(query) {
+    let results = []; 
+
+    for(symptom of doc) {
+        if (results.length >= 10) {
+            break; 
+        }
+
+        if(symptom.Name.toLowerCase().substring(0, query.length) === query) {
+            results.push(symptom); 
+        }
+    }
+
+    for(symptom of doc) {
+        if (results.length >= 10) {
+            break; 
+        }
+
+        if(symptom.Name.toLowerCase().includes(query)) {
+            results.push(symptom); 
+        }
+    }
+
+    return results; 
+}
+
+function displaySamples() {
+    createSearchItem()
+}
+
+function createSearchItem(name) {
+    let item = document.createElement("button"); 
+    item.classList.add("list-group-item list-group-item-action"); 
+    return item; 
+}
