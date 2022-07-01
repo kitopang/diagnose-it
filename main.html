@@ -8,6 +8,7 @@
     <title>Symptoms</title>
     <link rel="stylesheet" href="bootstrap_5.2/css/bootstrap.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/scss/custom.scss">
 </head>
 
 <body>
@@ -47,16 +48,7 @@
             <h1 class="display-3 text-center mt-5 title"><b>Tell us your symptoms. </b></h1>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-6 pe-4 pb-4 d-none" id = "addedSymptoms">
-                <ul class="list-group pb-3e">
-                    <li class="list-group-item">Added Symptoms:</li>
-                </ul>
-                <div class="">
-                    <button type="button" class="btn btn-primary d-none">Submit</button>
-                </div>
-
-            </div>
-            <div class="col-md-8">
+            <div class="col-md-8" id = "inputContainer">
                 <div class="input-group" id="inputBar">
                     <span class="input-group-text bg-transparent"><svg xmlns="http://www.w3.org/2000/svg" width="16"
                             height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -78,7 +70,15 @@
 
                     </div>
                 </ul>
+            </div>
 
+            <div class="col-md-6 pe-4 pb-4 d-none" id = "addedSymptomsContainer">
+                <ul class="list-group pb-3e" id = "addedSymptoms">
+                    <li class="list-group-item bg-dark text-white">Added Symptoms:</li>
+                </ul>
+                <div class="d-flex mt-2 justify-content-end">
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
             </div>
         </div>
     </div>

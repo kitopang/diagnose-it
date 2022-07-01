@@ -4,8 +4,11 @@ const input = document.querySelector("#symptoms");
 const searchResultsContainer = document.querySelector("#searchResults");
 const resultItems = document.querySelector("#resultItems"); 
 const resultsPlaceholder = document.querySelector("#placeholder"); 
-const addedSymptoms = document.querySelector("#addedSymptoms")
+const addedSymptomsContainer = document.querySelector("#addedSymptomsContainer");
+const addedSymptoms = document.querySelector("#addedSymptoms");
+const inputContainer = document.querySelector("#inputContainer");
 let doc; 
+let mouseOver; 
 
 const getSymptoms = function() {
     fetch("./resources/symptoms6_29.json")
@@ -26,14 +29,24 @@ input.addEventListener("focus", () => {
 }); 
 
 
-// input.addEventListener("blur", () => {
-//     if(document.activeElement !== searchResultsContainer) {
-//         searchResultsContainer.classList.add("d-none");
-//     }
-// })
+input.addEventListener("focusout", () => {
+    console.log("mouse"); 
+     if(!mouseOver) {
+         searchResultsContainer.classList.add("d-none");
+     } else {
+        input.focus(); 
+     }
+ })
 
+searchResultsContainer.addEventListener("mouseenter", () => {
+    mouseOver = true; 
+    console.log("on"); 
+}); 
 
-
+searchResultsContainer.addEventListener("mouseleave", () => {
+    mouseOver = false;  
+    console.log("off"); 
+});
 
 
 input.addEventListener("input", () => {
@@ -48,13 +61,24 @@ input.addEventListener("input", () => {
 })
 
 searchResultsContainer.addEventListener("click", function(e) { 
-    console.log(e); 
-    console.log("here"); 
+    console.log(e.target.symptomObject)
+    let currentSymptom = e.target.symptomObject; 
+    console.log("hi" + currentSymptom); 
+    let newItem = createAddedItem(currentSymptom.Name);
+    newItem.symptomObject = currentSymptom; 
+    addedSymptomsContainer.classList.remove("d-none"); 
+    inputContainer.classList.remove("col-md-8"); 
+    inputContainer.classList.add("col-md-6"); 
+    addedSymptoms.appendChild(newItem); 
+
 })
+
+
 
 function search(query) {
     let results = []; 
 
+    // Search for symptoms that start with the same letters. This has precedence.
     for(symptom of doc) {
         if (results.length >= 10) {
             break; 
@@ -65,6 +89,7 @@ function search(query) {
         }
     }
 
+    // Search for symptoms that have the same combination of letters if search array isn't already full. 
     for(symptom of doc) {
         if (results.length >= 10) {
             break; 
@@ -90,6 +115,8 @@ function displayResults(searchResults) {
 
         for(symptom of searchResults) {
             let item = createSearchItem(symptom.Name); 
+            // Attach symptom object to button for later reference
+            item.symptomObject = symptom; 
             item.setAttribute("id", "button" + num); 
             resultItems.appendChild(item); 
             num++; 
@@ -102,6 +129,14 @@ function createSearchItem(name) {
     item.classList.add("list-group-item");
     item.classList.add("list-group-item-action"); 
     item.classList.add("border-0"); 
+    item.innerText = name; 
+    return item; 
+}
+
+function createAddedItem(name) {
+    let item = document.createElement("li"); 
+    item.classList.add("list-group-item"); 
+    item.classList.add("list-group-item-action"); 
     item.innerText = name; 
     return item; 
 }
