@@ -1,6 +1,7 @@
 const secondPage = document.querySelector("#secondPage");
 const getStartedButton = document.querySelector("#gsButt");
 const input = document.querySelector("#symptoms");
+const mainContainer = document.querySelector("#main");
 
 const searchResultsContainer = document.querySelector("#searchResults");
 const resultItems = document.querySelector("#resultItems");
@@ -77,6 +78,8 @@ searchResultsContainer.addEventListener("click", function (e) {
     addedSymptomsContainer.classList.remove("d-none");
     inputContainer.classList.remove("col-md-12");
     inputContainer.classList.add("col-md-6");
+    mainContainer.classList.remove("col-md-6");
+    mainContainer.classList.add("col-md-8");
     addedSymptoms.appendChild(newItem);
 });
 
@@ -88,6 +91,8 @@ addedSymptoms.addEventListener("click", function (e) {
         addedSymptomsContainer.classList.add("d-none");
         inputContainer.classList.remove("col-md-6");
         inputContainer.classList.add("col-md-12");
+        mainContainer.classList.remove("col-md-8");
+        mainContainer.classList.add("col-md-6");
         input.focus();
     }
 });
