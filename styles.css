@@ -15,3 +15,10 @@
 
     background-color: #161616;
 }
+
+#thirdPage {
+    background-image: url("resources/grad5.jpg");
+    background-size: cover;
+    background-position: center; 
+
+}

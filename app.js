@@ -8,8 +8,11 @@ const resultsPlaceholder = document.querySelector("#placeholder");
 
 const addedSymptomsContainer = document.querySelector("#addedSymptomsContainer");
 const addedSymptoms = document.querySelector("#addedSymptoms");
+const submitButton = document.querySelector("#submitButt");
 
 const inputContainer = document.querySelector("#inputContainer");
+
+
 let doc; 
 let mouseOver; 
 
@@ -63,7 +66,7 @@ input.addEventListener("input", () => {
         let searchResults = search(input.value); 
         displayResults(searchResults); 
     }
-})
+});
 
 searchResultsContainer.addEventListener("click", function(e) { 
     console.log(e.target.symptomObject)
@@ -75,10 +78,23 @@ searchResultsContainer.addEventListener("click", function(e) {
     inputContainer.classList.remove("col-md-12"); 
     inputContainer.classList.add("col-md-6"); 
     addedSymptoms.appendChild(newItem); 
+});
 
-})
+addedSymptoms.addEventListener("click", function(e) {
+    e.target.remove(); 
+    console.log(addedSymptoms.childElementCount); 
 
+    if(addedSymptoms.childElementCount === 1) {
+        addedSymptomsContainer.classList.add("d-none"); 
+        inputContainer.classList.remove("col-md-6"); 
+        inputContainer.classList.add("col-md-12");
+        input.focus(); 
+    }
+}); 
 
+submitButton.addEventListener("click", () => {
+ ////WORK ON THIS TMRW
+});
 
 function search(query) {
     let results = []; 
