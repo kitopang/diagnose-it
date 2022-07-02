@@ -155,6 +155,7 @@ function createSearchItem(name) {
     item.classList.add("list-group-item");
     item.classList.add("list-group-item-action");
     item.classList.add("border-0");
+    item.classList.add("bg-light");
     item.innerText = name;
     return item;
 }
