@@ -1,11 +1,14 @@
 const secondPage = document.querySelector("#secondPage"); 
 const getStartedButton = document.querySelector("#gsButt"); 
 const input = document.querySelector("#symptoms");
+
 const searchResultsContainer = document.querySelector("#searchResults");
 const resultItems = document.querySelector("#resultItems"); 
 const resultsPlaceholder = document.querySelector("#placeholder"); 
+
 const addedSymptomsContainer = document.querySelector("#addedSymptomsContainer");
 const addedSymptoms = document.querySelector("#addedSymptoms");
+
 const inputContainer = document.querySelector("#inputContainer");
 let doc; 
 let mouseOver; 
@@ -17,6 +20,8 @@ const getSymptoms = function() {
      })
      .then(jsondata => doc = jsondata
      );
+
+     input.focus(); 
 }
 
 getStartedButton.addEventListener("click", getSymptoms); 
@@ -67,7 +72,7 @@ searchResultsContainer.addEventListener("click", function(e) {
     let newItem = createAddedItem(currentSymptom.Name);
     newItem.symptomObject = currentSymptom; 
     addedSymptomsContainer.classList.remove("d-none"); 
-    inputContainer.classList.remove("col-md-8"); 
+    inputContainer.classList.remove("col-md-12"); 
     inputContainer.classList.add("col-md-6"); 
     addedSymptoms.appendChild(newItem); 
 
