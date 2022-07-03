@@ -1,25 +1,31 @@
 // import axios from "axios"; 
 
-const secondPage = document.querySelector("#secondPage");
+//First page DOM elements
 const getStartedButton = document.querySelector("#gsButt");
-const input = document.querySelector("#symptoms");
-const mainContainer = document.querySelector("#main");
 
+const biometricsContainer = document.querySelector("#preview"); 
+const yearInput = document.querySelector("#yearInput"); 
+const maleInput = document.querySelector("#male"); 
+const femaleInput = document.querySelector("#female"); 
+const submitBiometrics = document.querySelector("#submitGender"); 
+
+//Second page DOM elements
+const secondPage = document.querySelector("#secondPage");
+const mainContainer = document.querySelector("#main");
+const inputContainer = document.querySelector("#inputContainer");
+const input = document.querySelector("#symptoms");
 const searchResultsContainer = document.querySelector("#searchResults");
-const resultItems = document.querySelector("#resultItems");
-const resultsPlaceholder = document.querySelector("#placeholder");
 
 const addedSymptomsContainer = document.querySelector("#addedSymptomsContainer");
 const addedSymptoms = document.querySelector("#addedSymptoms");
+const resultItems = document.querySelector("#resultItems");
+const resultsPlaceholder = document.querySelector("#placeholder");
 const submitButton = document.querySelector("#submitButt");
-const submitGender = document.querySelector("#submitGender"); 
-
-const inputContainer = document.querySelector("#inputContainer");
-const genderContainer = document.querySelector("#preview"); 
-
 
 let doc;
 let mouseOver;
+let birthyear; 
+let genderVal; 
 
 const getSymptoms = function () {
     fetch("./resources/symptoms6_29.json")
@@ -34,14 +40,20 @@ const getSymptoms = function () {
 
 getStartedButton.addEventListener("click", getSymptoms);
 
-submitGender.addEventListener("click", () => {
-    genderContainer.style.opacity = 0; 
+submitBiometrics.addEventListener("click", () => {
+    birthyear = yearInput.value.toString(); 
+    if(maleInput.checked) {
+        genderVal = "male"; 
+    } else if(femaleInput.checked) {
+        genderVal = "female"; 
+    }
+
+    biometricsContainer.style.opacity = 0; 
     setTimeout(function() {
-        genderContainer.classList.add("d-none"); 
+        biometricsContainer.classList.add("d-none"); 
         mainContainer.style.opacity = "100"; 
         input.focus(); 
       }, 1000);
-
 })
 
 input.addEventListener("focus", () => {
@@ -202,7 +214,7 @@ function callAPI(symptomsList) {
     const options = {
         method: 'GET',
         url: 'https://priaid-symptom-checker-v1.p.rapidapi.com/diagnosis',
-        params: {gender: 'male', year_of_birth: '1984', symptoms: symptomsList, language: 'en-gb'},
+        params: {gender: genderVal, year_of_birth: birthyear, symptoms: symptomsList, language: 'en-gb'},
         headers: {
           'X-RapidAPI-Key': '3be63b2714msh9d243fd4ef7dd1ap1632ebjsn81dc7e84b888',
           'X-RapidAPI-Host': 'priaid-symptom-checker-v1.p.rapidapi.com'
@@ -210,8 +222,23 @@ function callAPI(symptomsList) {
       };
       
       axios.request(options).then(function (response) {
-          console.log(response.data);
+        let diagnosis = response.data;   
+        console.log(diagnosis);
+        updateAccordion(diagnosis); 
+
       }).catch(function (error) {
           console.error(error);
       });
+}
+
+function updateAccordion(diagnosisArray) {
+    let index = 0; 
+    for(diagnosis of diagnosisArray) {
+        if(index > 3) {
+            break; 
+        }
+        let titles = document.querySelectorAll(".accordion-button")
+        titles.item(index).innerText = diagnosis.Issue.Name; 
+        index++; 
+    }
 }
