@@ -1,3 +1,5 @@
+// import axios from "axios"; 
+
 const secondPage = document.querySelector("#secondPage");
 const getStartedButton = document.querySelector("#gsButt");
 const input = document.querySelector("#symptoms");
@@ -10,8 +12,10 @@ const resultsPlaceholder = document.querySelector("#placeholder");
 const addedSymptomsContainer = document.querySelector("#addedSymptomsContainer");
 const addedSymptoms = document.querySelector("#addedSymptoms");
 const submitButton = document.querySelector("#submitButt");
+const submitGender = document.querySelector("#submitGender"); 
 
 const inputContainer = document.querySelector("#inputContainer");
+const genderContainer = document.querySelector("#preview"); 
 
 
 let doc;
@@ -24,11 +28,21 @@ const getSymptoms = function () {
         })
         .then(jsondata => doc = jsondata
         );
-
+   
     input.focus();
 }
 
 getStartedButton.addEventListener("click", getSymptoms);
+
+submitGender.addEventListener("click", () => {
+    genderContainer.style.opacity = 0; 
+    setTimeout(function() {
+        genderContainer.classList.add("d-none"); 
+        mainContainer.style.opacity = "100"; 
+        input.focus(); 
+      }, 1000);
+
+})
 
 input.addEventListener("focus", () => {
     searchResultsContainer.classList.add("border");
@@ -98,7 +112,22 @@ addedSymptoms.addEventListener("click", function (e) {
 });
 
 submitButton.addEventListener("click", () => {
-    ////WORK ON THIS TMRW
+    const addedElements = document.querySelectorAll(".item"); 
+    let symptomsList = "["; 
+    let count = 0; 
+
+    for(element of addedElements) {
+        if(count > 0) {
+            symptomsList += ","; 
+        }
+        symptomsList += element.symptomObject.ID;
+        count++; 
+    }
+    symptomsList += "]";
+    
+    console.log(symptomsList); 
+
+    callAPI(symptomsList); 
 });
 
 function search(query) {
@@ -163,6 +192,25 @@ function createAddedItem(name) {
     let item = document.createElement("li");
     item.classList.add("list-group-item");
     item.classList.add("list-group-item-action");
+    item.classList.add("item"); 
     item.innerText = name;
     return item;
+}
+
+function callAPI(symptomsList) {
+    const options = {
+        method: 'GET',
+        url: 'https://priaid-symptom-checker-v1.p.rapidapi.com/diagnosis',
+        params: {gender: 'male', year_of_birth: '1984', symptoms: symptomsList, language: 'en-gb'},
+        headers: {
+          'X-RapidAPI-Key': '3be63b2714msh9d243fd4ef7dd1ap1632ebjsn81dc7e84b888',
+          'X-RapidAPI-Host': 'priaid-symptom-checker-v1.p.rapidapi.com'
+        }
+      };
+      
+      axios.request(options).then(function (response) {
+          console.log(response.data);
+      }).catch(function (error) {
+          console.error(error);
+      });
 }

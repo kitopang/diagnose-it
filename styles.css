@@ -20,5 +20,13 @@
     background-image: url("resources/grad5.jpg");
     background-size: cover;
     background-position: center; 
+}
 
+#main {
+    opacity:0;
+    transition: opacity 1s; 
+}
+
+#preview {
+    transition: opacity 1s; 
 }
