@@ -10,6 +10,8 @@ const femaleInput = document.querySelector("#female");
 const submitBiometrics = document.querySelector("#submitGender"); 
 
 //Second page DOM elements
+const text1 = document.querySelector("#text1");
+const text2 = document.querySelector("#text2"); 
 const secondPage = document.querySelector("#secondPage");
 const mainContainer = document.querySelector("#main");
 const inputContainer = document.querySelector("#inputContainer");
@@ -21,6 +23,9 @@ const addedSymptoms = document.querySelector("#addedSymptoms");
 const resultItems = document.querySelector("#resultItems");
 const resultsPlaceholder = document.querySelector("#placeholder");
 const submitButton = document.querySelector("#submitButt");
+
+const thirdPage = document.querySelector("#thirdPage"); 
+const accordion = document.querySelector(".accordion"); 
 
 let doc;
 let mouseOver;
@@ -34,13 +39,18 @@ const getSymptoms = function () {
         })
         .then(jsondata => doc = jsondata
         );
-   
-    input.focus();
+    secondPage.classList.remove("d-none"); 
+    secondPage.scrollIntoView();
+
+    text1.style.opacity = "100";
+    biometricsContainer.style.opacity = "100"; 
+ 
 }
 
 getStartedButton.addEventListener("click", getSymptoms);
 
 submitBiometrics.addEventListener("click", () => {
+    console.log(doc);
     birthyear = yearInput.value.toString(); 
     if(maleInput.checked) {
         genderVal = "male"; 
@@ -49,11 +59,20 @@ submitBiometrics.addEventListener("click", () => {
     }
 
     biometricsContainer.style.opacity = 0; 
+    text1.style.opacity = 0; 
+    document.querySelector("#ex1").symptomObject = doc[41]; 
+    document.querySelector("#ex2").symptomObject = doc[230]; 
+    document.querySelector("#ex3").symptomObject = doc[104];
+    document.querySelector("#ex4").symptomObject = doc[85]; 
+
     setTimeout(function() {
         biometricsContainer.classList.add("d-none"); 
+        text1.classList.add("d-none"); 
+        text2.classList.remove("d-none"); 
         mainContainer.style.opacity = "100"; 
+        text2.style.opacity = "100"; 
         input.focus(); 
-      }, 1000);
+      }, 500);
 })
 
 input.addEventListener("focus", () => {
@@ -101,12 +120,21 @@ searchResultsContainer.addEventListener("click", function (e) {
     console.log("hi" + currentSymptom);
     let newItem = createAddedItem(currentSymptom.Name);
     newItem.symptomObject = currentSymptom;
-    addedSymptomsContainer.classList.remove("d-none");
+
+
     inputContainer.classList.remove("col-md-12");
     inputContainer.classList.add("col-md-6");
     mainContainer.classList.remove("col-md-6");
     mainContainer.classList.add("col-md-8");
+
+    addedSymptomsContainer.classList.remove("d-none");
     addedSymptoms.appendChild(newItem);
+
+    setTimeout(function(){
+        addedSymptomsContainer.style.opacity = "100";
+
+    }, 50); 
+
 });
 
 addedSymptoms.addEventListener("click", function (e) {
@@ -114,12 +142,16 @@ addedSymptoms.addEventListener("click", function (e) {
     console.log(addedSymptoms.childElementCount);
 
     if (addedSymptoms.childElementCount === 1) {
-        addedSymptomsContainer.classList.add("d-none");
-        inputContainer.classList.remove("col-md-6");
-        inputContainer.classList.add("col-md-12");
-        mainContainer.classList.remove("col-md-8");
-        mainContainer.classList.add("col-md-6");
-        input.focus();
+        addedSymptomsContainer.style.opacity = "0"; 
+
+        setTimeout(function(){
+            addedSymptomsContainer.classList.add("d-none");
+            inputContainer.classList.remove("col-md-6");
+            inputContainer.classList.add("col-md-12");
+            mainContainer.classList.remove("col-md-8");
+            mainContainer.classList.add("col-md-6");
+            input.focus();
+        }, 500); 
     }
 });
 
@@ -136,10 +168,16 @@ submitButton.addEventListener("click", () => {
         count++; 
     }
     symptomsList += "]";
-    
     console.log(symptomsList); 
 
-    callAPI(symptomsList); 
+    callAPI(symptomsList);
+    thirdPage.classList.remove("d-none");  
+    setTimeout(function(){
+        thirdPage.scrollIntoView({behavior: "smooth"}); 
+        accordion.style.opacity = "100"; 
+    }, 500); 
+
+  
 });
 
 function search(query) {
@@ -220,7 +258,7 @@ function callAPI(symptomsList) {
           'X-RapidAPI-Host': 'priaid-symptom-checker-v1.p.rapidapi.com'
         }
       };
-      
+      /*
       axios.request(options).then(function (response) {
         let diagnosis = response.data;   
         console.log(diagnosis);
@@ -229,6 +267,8 @@ function callAPI(symptomsList) {
       }).catch(function (error) {
           console.error(error);
       });
+      */
+
 }
 
 let titles = document.querySelectorAll(".accordion-button");

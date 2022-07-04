@@ -24,9 +24,31 @@
 
 #main {
     opacity:0;
-    transition: opacity 1s; 
+    transition: opacity .5s; 
 }
 
 #preview {
-    transition: opacity 1s; 
+    opacity:0;
+    transition: opacity .5s; 
 }
+
+#text1 {
+    opacity:0;
+    transition: opacity .5s;
+}
+
+#text2 {
+    opacity:0;
+    transition: opacity .5s;
+}
+
+.accordion {
+    opacity:0;
+    transition: opacity 3s;
+}
+
+#addedSymptomsContainer {
+    opacity:0;
+    transition: opacity 1s;
+}
+
