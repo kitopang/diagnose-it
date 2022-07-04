@@ -231,14 +231,36 @@ function callAPI(symptomsList) {
       });
 }
 
+let titles = document.querySelectorAll(".accordion-button");
+let bodies = document.querySelectorAll(".accordion-body");
+let containers = document.querySelectorAll(".accordion-item"); 
 function updateAccordion(diagnosisArray) {
     let index = 0; 
     for(diagnosis of diagnosisArray) {
         if(index > 3) {
             break; 
         }
-        let titles = document.querySelectorAll(".accordion-button")
-        titles.item(index).innerText = diagnosis.Issue.Name; 
+        titles.item(index).innerHTML = "<i>" + (index+1) + ". " + diagnosis.Issue.Name + ": " + diagnosis.Issue.Accuracy + "% accuracy</i>";
+
+        if(index === 0) {
+            bodies.item(index).innerHTML = "<strong>Given your symptoms, this is the most likely cause. Additional information:</strong> <br> Also known as: <I>" + diagnosis.Issue.ProfName +"</I>. <br> ICD (international classification of diseases) number: " + diagnosis.Issue.Icd + "<br>ICD name: " + diagnosis.Issue.IcdName + "<br> Specialization: " + diagnosis.Specialisation[diagnosis.Specialisation.length-1].Name;
+        } else {
+            bodies.item(index).innerHTML = "<strong>Additional information:</strong> <br> Also known as: <I>" + diagnosis.Issue.ProfName +"</I>. <br> ICD (international classification of diseases) number: " + diagnosis.Issue.Icd + "<br>ICD name: " + diagnosis.Issue.IcdName + "<br> Specialization: " + diagnosis.Specialisation[diagnosis.Specialisation.length-1].Name;
+        }
+
+
         index++; 
+    }
+
+    // Remove extra accordion entires 
+    let index2 = 0; 
+    if(diagnosisArray.length < 4) {
+        for(title of titles) {
+            if(title.innerText === "empty") {
+                containers.item(index).classList.add("d-none"); 
+            }
+
+            index2++; 
+        }
     }
 }
