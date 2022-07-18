@@ -1,6 +1,6 @@
 # diagnose-it
 
-Built from HTML, CSS, JS, Bootstrap 5.2, and a REST API, diagnose-it is a unique webapp built from scratch that allows a user to evaluate their symptoms. It includes a custom-built search browser, as well as smooth CSS3 animations and adaptive bootstrap elements that resize on different screen sizes.
+Built from scratch using HTML, CSS, JS, Bootstrap 5.2, and a REST API, diagnose-it is a unique webapp built that allows a user to evaluate their symptoms. It includes a custom-built search browser, as well as smooth CSS3 animations and adaptive bootstrap elements that resize on different screen sizes.
 
 
 <img width="1440" alt="Screen Shot 2022-07-03 at 19 27 02" src="https://user-images.githubusercontent.com/21183506/177071095-7706cc84-514d-42bd-b10a-bc5239d359a3.png">
